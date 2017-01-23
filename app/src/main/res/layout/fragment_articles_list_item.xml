@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListItemModel"
+            />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="@{model.imageCaption}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            bind:imageUrl="@{model.imageUrl}"
+            tools:background="@color/colorAccent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{model.headerTitle}"
+            app:layout_constraintLeft_toRightOf="@+id/iv_photo"
+            app:layout_constraintTop_toTopOf="@+id/iv_photo"
+            tools:text="Article header"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            />
+
+        <TextView
+            android:id="@+id/tv_abstract"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{model.abstractTitle}"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="Article abstract"
+            app:layout_constraintRight_toRightOf="@+id/tv_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            />
+
+        <TextView
+            android:id="@+id/tv_publish_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{model.publicationDate}"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_abstract"
+            app:layout_constraintTop_toBottomOf="@+id/tv_abstract"
+            tools:text="2017/01/25 12:00"
+            app:layout_constraintRight_toRightOf="@+id/tv_abstract"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

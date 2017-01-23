@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NytReader</string>
+    <string name="ten_most_read_articles">10 most viewed articles</string>
+    <string name="search">Search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_message_generic">Something went wrong. Try again later.</string>
+    <string name="error_message_not_found">Found nothing.</string>
+</resources>

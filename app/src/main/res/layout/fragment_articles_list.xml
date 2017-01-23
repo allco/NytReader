@@ -1,0 +1,55 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListModel"
+            />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_of_articles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/padding8"
+            android:paddingTop="@dimen/padding8"
+            android:paddingRight="@dimen/padding8"
+            android:clipToPadding="false"
+            bind:layoutProviderItems="@{model.articlesList}"
+            bind:visibility="@{!model.articlesList.isEmpty()}"
+            />
+
+        <TextView
+            android:id="@+id/tv_message_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{model.errorMessage}"
+            bind:visibility="@{!model.errorMessage.isEmpty()}"
+            tools:text="@string/error_message_generic"
+            />
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            bind:visibility="@{model.articlesList.isEmpty() &amp;&amp; model.errorMessage.isEmpty()}"
+            />
+
+    </FrameLayout>
+</layout>
