@@ -3,6 +3,7 @@ package com.nytreader.alsk.nytreader;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -54,10 +55,7 @@ public class BindingAdapters {
 
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setHasFixedSize(true);
-        //recyclerView.setItemViewCacheSize(20);
-        recyclerView.setDrawingCacheEnabled(true);
-        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         MultiTypeObserverDataBoundAdapter adapter = new MultiTypeObserverDataBoundAdapter();
         adapter.setData(layoutProviderItems);

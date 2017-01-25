@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResponseModel {
+public class ResponseDataModel {
 
     @SerializedName("response")
     private Response response;
@@ -85,44 +85,44 @@ public class ResponseModel {
     }
 
     public static class Doc {
-        @SerializedName("abstract")
-        private String _abstract;
+        @SerializedName("snippet")
+        private String snippet;
         @SerializedName("headline")
         private Headline headline;
         @SerializedName("pub_date")
-        private String pub_date;
+        private String publiationDate;
         @SerializedName("multimedia")
         private List<Multimedium> multimedia = null;
 
-        public String get_abstract() {
-            return _abstract;
+        public String getSnippet() {
+            return snippet;
         }
 
-        public void set_abstract(final String _abstract) {
-            this._abstract = _abstract;
+        public void setSnippet(String snippet) {
+            this.snippet = snippet;
         }
 
         public Headline getHeadline() {
             return headline;
         }
 
-        public void setHeadline(final Headline headline) {
+        public void setHeadline(Headline headline) {
             this.headline = headline;
         }
 
-        public String getPub_date() {
-            return pub_date;
+        public String getPubliationDate() {
+            return publiationDate;
         }
 
-        public void setPub_date(final String pub_date) {
-            this.pub_date = pub_date;
+        public void setPubliationDate(String publiationDate) {
+            this.publiationDate = publiationDate;
         }
 
         public List<Multimedium> getMultimedia() {
             return multimedia;
         }
 
-        public void setMultimedia(final List<Multimedium> multimedia) {
+        public void setMultimedia(List<Multimedium> multimedia) {
             this.multimedia = multimedia;
         }
     }

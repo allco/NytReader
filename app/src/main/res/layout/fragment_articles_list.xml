@@ -8,48 +8,48 @@
 
         <variable
             name="model"
-            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListModel"
+            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListViewModel"
             />
 
         <import type="android.view.View"/>
     </data>
 
-    <FrameLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fr_swipe_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
+        bind:refreshing="@{model.articlesList.isEmpty() &amp;&amp; android.text.TextUtils.isEmpty(model.errorMessage)}"
         >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_of_articles"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/padding8"
-            android:paddingTop="@dimen/padding8"
-            android:paddingRight="@dimen/padding8"
-            android:clipToPadding="false"
-            bind:layoutProviderItems="@{model.articlesList}"
-            bind:visibility="@{!model.articlesList.isEmpty()}"
-            />
+            android:animateLayoutChanges="true"
+            >
 
-        <TextView
-            android:id="@+id/tv_message_banner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@{model.errorMessage}"
-            bind:visibility="@{!model.errorMessage.isEmpty()}"
-            tools:text="@string/error_message_generic"
-            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_of_articles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/padding4"
+                android:paddingTop="@dimen/padding4"
+                bind:layoutProviderItems="@{model.articlesList}"
+                bind:visibility="@{!model.articlesList.isEmpty()}"
+                />
 
-        <ProgressBar
-            android:id="@+id/pb_loading"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            bind:visibility="@{model.articlesList.isEmpty() &amp;&amp; model.errorMessage.isEmpty()}"
-            />
+            <TextView
+                android:id="@+id/tv_message_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@{model.errorMessage}"
+                bind:visibility="@{!model.errorMessage.isEmpty()}"
+                tools:text="@string/error_message_generic"
+                />
 
-    </FrameLayout>
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

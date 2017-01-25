@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import com.nytreader.alsk.nytreader.BuildConfig;
 import com.nytreader.alsk.nytreader.R;
 import com.nytreader.alsk.nytreader.rest.NytArticlesService;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,8 +15,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
@@ -64,12 +65,13 @@ public class AppModule {
     public NytArticlesService providesNytArticlesServices(@NonNull @Named(END_POINT) String endPoint) {
 
         // tune timeouts
-        final OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setReadTimeout(30, TimeUnit.SECONDS);
-        okHttpClient.setConnectTimeout(30, TimeUnit.SECONDS);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
 
-        // create Retrofit object for farther services initialization
         Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(endPoint)
                 .client(okHttpClient)

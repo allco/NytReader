@@ -7,7 +7,7 @@ import com.nytreader.alsk.nytreader.utils.recyclerview.LayoutProvider;
 
 import javax.inject.Inject;
 
-public class ArticlesListItemModel implements LayoutProvider {
+public class ArticlesListItemViewModel implements LayoutProvider {
 
     public final ObservableField<String> headerTitle = new ObservableField<>();
     public final ObservableField<String> abstractTitle = new ObservableField<>();
@@ -16,7 +16,7 @@ public class ArticlesListItemModel implements LayoutProvider {
     public final ObservableField<String> imageUrl = new ObservableField<>();
 
     @Inject
-    ArticlesListItemModel() {
+    ArticlesListItemViewModel() {
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ArticlesListItemModel implements LayoutProvider {
         return R.layout.fragment_articles_list_item;
     }
 
-    ArticlesListItemModel setData(final String headerTitle, final String abstractTitle, final String imageCaption, final String imageUrl, final String publicationDate) {
+    ArticlesListItemViewModel setData(final String headerTitle, final String abstractTitle, final String imageCaption, final String imageUrl, final String publicationDate) {
         this.publicationDate.set(publicationDate);
         this.abstractTitle.set(abstractTitle);
         this.imageCaption.set(imageCaption);

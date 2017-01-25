@@ -31,9 +31,13 @@ public class ArticlesListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ArticlesListComponent component = IoC.getInstance().getAppComponent().startArticlesList(new ArticlesListModule());
-        FragmentArticlesListBinding binding = FragmentArticlesListBinding.inflate(inflater, container, false);
-        ArticlesListModel model = component.createModel();
+
+        ArticlesListViewModel model = component.createModel();
         model.loadItems();
+
+        FragmentArticlesListBinding binding = FragmentArticlesListBinding.inflate(inflater, container, false);
+        binding.frSwipeToRefresh.setOnRefreshListener(model::loadItems);
+
         binding.setModel(model);
         return binding.getRoot();
     }

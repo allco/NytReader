@@ -10,7 +10,7 @@
 
         <variable
             name="model"
-            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListItemModel"
+            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListItemViewModel"
             />
     </data>
 
@@ -19,6 +19,12 @@
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"
+        android:paddingLeft="@dimen/padding8"
+        android:paddingRight="@dimen/padding8"
+        android:paddingTop="@dimen/padding4"
+        android:paddingBottom="@dimen/padding4"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
         >
 
         <ImageView
@@ -29,13 +35,12 @@
             app:layout_constraintLeft_toLeftOf="parent"
             bind:imageUrl="@{model.imageUrl}"
             tools:background="@color/colorAccent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            />
+            bind:visibility="@{model.imageUrl != null}"
+            app:layout_constraintTop_toTopOf="@+id/tv_title"/>
 
         <TextView
             android:id="@+id/tv_title"
+            style="@style/Base.TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -43,40 +48,34 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{model.headerTitle}"
-            app:layout_constraintLeft_toRightOf="@+id/iv_photo"
-            app:layout_constraintTop_toTopOf="@+id/iv_photo"
-            tools:text="Article header"
-            style="@style/Base.TextAppearance.AppCompat.Title"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            />
+            app:layout_constraintLeft_toRightOf="@+id/iv_photo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"
+            tools:text="Article header"/>
 
         <TextView
             android:id="@+id/tv_abstract"
-            android:layout_width="0dp"
+            android:layout_width="296dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@{model.abstractTitle}"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            tools:text="Article abstract"
-            app:layout_constraintRight_toRightOf="@+id/tv_title"
-            app:layout_constraintHorizontal_bias="0.0"
-            />
+            app:layout_constraintLeft_toLeftOf="@+id/tv_publish_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_publish_date"
+            tools:text="Article abstract."/>
 
         <TextView
             android:id="@+id/tv_publish_date"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{model.publicationDate}"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_abstract"
-            app:layout_constraintTop_toBottomOf="@+id/tv_abstract"
-            tools:text="2017/01/25 12:00"
-            app:layout_constraintRight_toRightOf="@+id/tv_abstract"
-            />
+            app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="2017/01/25 12:00"/>
 
     </android.support.constraint.ConstraintLayout>
 
