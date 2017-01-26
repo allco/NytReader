@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.nytreader.alsk.nytreader.articlesList.ArticlesListViewModel"
+            type="com.nytreader.alsk.articlesList.ArticlesListViewModel"
             />
 
         <import type="android.view.View"/>

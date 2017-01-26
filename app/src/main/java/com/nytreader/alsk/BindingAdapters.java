@@ -1,4 +1,4 @@
-package com.nytreader.alsk.nytreader;
+package com.nytreader.alsk;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
@@ -9,10 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nytreader.alsk.nytreader.ioc.IoC;
-import com.nytreader.alsk.nytreader.utils.ThumbLoader;
-import com.nytreader.alsk.nytreader.utils.recyclerview.LayoutProviderObservableList;
-import com.nytreader.alsk.nytreader.utils.recyclerview.MultiTypeObserverDataBoundAdapter;
+import com.nytreader.alsk.ioc.IoC;
+import com.nytreader.alsk.ui.recyclerview.LayoutProviderObservableList;
+import com.nytreader.alsk.ui.recyclerview.MultiTypeObserverDataBoundAdapter;
+import com.nytreader.alsk.utils.ThumbLoader;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 

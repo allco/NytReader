@@ -1,6 +1,6 @@
-package com.nytreader.alsk.nytreader.articlesList.ioc;
+package com.nytreader.alsk.articlesList.ioc;
 
-import com.nytreader.alsk.nytreader.articlesList.ArticlesListViewModel;
+import com.nytreader.alsk.articlesList.ArticlesListViewModel;
 
 import dagger.Subcomponent;
 

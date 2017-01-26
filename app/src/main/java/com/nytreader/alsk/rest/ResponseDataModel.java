@@ -1,5 +1,5 @@
 
-package com.nytreader.alsk.nytreader.rest;
+package com.nytreader.alsk.rest;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -33,7 +33,7 @@ public class ResponseDataModel {
         }
     }
 
-    public static class Multimedium {
+    public static class Multimedia {
         @SerializedName("url")
         private String url;
         @SerializedName("caption")
@@ -74,12 +74,22 @@ public class ResponseDataModel {
     public static class Headline {
         @SerializedName("name")
         private String name;
+        @SerializedName("main")
+        private String main;
+
+        public String getMain() {
+            return main;
+        }
+
+        public void setMain(String main) {
+            this.main = main;
+        }
 
         public String getName() {
             return name;
         }
 
-        public void setName(final String name) {
+        public void setName(String name) {
             this.name = name;
         }
     }
@@ -92,7 +102,7 @@ public class ResponseDataModel {
         @SerializedName("pub_date")
         private String publiationDate;
         @SerializedName("multimedia")
-        private List<Multimedium> multimedia = null;
+        private List<Multimedia> multimedia = null;
 
         public String getSnippet() {
             return snippet;
@@ -118,11 +128,11 @@ public class ResponseDataModel {
             this.publiationDate = publiationDate;
         }
 
-        public List<Multimedium> getMultimedia() {
+        public List<Multimedia> getMultimedia() {
             return multimedia;
         }
 
-        public void setMultimedia(List<Multimedium> multimedia) {
+        public void setMultimedia(List<Multimedia> multimedia) {
             this.multimedia = multimedia;
         }
     }

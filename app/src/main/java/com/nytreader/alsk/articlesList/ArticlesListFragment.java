@@ -1,18 +1,25 @@
-package com.nytreader.alsk.nytreader.articlesList;
+package com.nytreader.alsk.articlesList;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nytreader.alsk.nytreader.articlesList.ioc.ArticlesListComponent;
-import com.nytreader.alsk.nytreader.articlesList.ioc.ArticlesListModule;
-import com.nytreader.alsk.nytreader.databinding.FragmentArticlesListBinding;
-import com.nytreader.alsk.nytreader.ioc.IoC;
+import com.nytreader.alsk.articlesList.ioc.ArticlesListComponent;
+import com.nytreader.alsk.articlesList.ioc.ArticlesListModule;
+import com.nytreader.alsk.databinding.FragmentArticlesListBinding;
+import com.nytreader.alsk.ioc.IoC;
 
 public class ArticlesListFragment extends Fragment {
 
+    private ArticlesListViewModel viewModel;
+
+    /**
+     * Use {@link #newInstance()} instead
+     */
     @Deprecated
     public ArticlesListFragment() {
     }
@@ -30,15 +37,26 @@ public class ArticlesListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         ArticlesListComponent component = IoC.getInstance().getAppComponent().startArticlesList(new ArticlesListModule());
-
-        ArticlesListViewModel model = component.createModel();
-        model.loadItems();
+        viewModel = component.createModel();
+        viewModel.loadItems();
 
         FragmentArticlesListBinding binding = FragmentArticlesListBinding.inflate(inflater, container, false);
-        binding.frSwipeToRefresh.setOnRefreshListener(model::loadItems);
+        binding.frSwipeToRefresh.setOnRefreshListener(viewModel::loadItems);
 
-        binding.setModel(model);
+        binding.setModel(viewModel);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewModel = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        viewModel.inflateMenu(menu, inflater);
     }
 }

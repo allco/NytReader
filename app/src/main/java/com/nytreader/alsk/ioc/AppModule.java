@@ -1,12 +1,12 @@
-package com.nytreader.alsk.nytreader.ioc;
+package com.nytreader.alsk.ioc;
 
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.nytreader.alsk.nytreader.BuildConfig;
-import com.nytreader.alsk.nytreader.R;
-import com.nytreader.alsk.nytreader.rest.NytArticlesService;
+import com.nytreader.alsk.BuildConfig;
+import com.nytreader.alsk.R;
+import com.nytreader.alsk.rest.NytArticlesService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +16,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,8 +65,17 @@ public class AppModule {
     @Singleton
     public NytArticlesService providesNytArticlesServices(@NonNull @Named(END_POINT) String endPoint) {
 
-        // tune timeouts
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        // add logger for Debug mode only
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+            logger.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            builder.addInterceptor(logger);
+        }
+
+        final OkHttpClient okHttpClient = builder
+                // tune timeouts
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();

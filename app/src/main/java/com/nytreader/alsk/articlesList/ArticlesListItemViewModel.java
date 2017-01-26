@@ -1,9 +1,9 @@
-package com.nytreader.alsk.nytreader.articlesList;
+package com.nytreader.alsk.articlesList;
 
 import android.databinding.ObservableField;
 
-import com.nytreader.alsk.nytreader.R;
-import com.nytreader.alsk.nytreader.utils.recyclerview.LayoutProvider;
+import com.nytreader.alsk.R;
+import com.nytreader.alsk.ui.recyclerview.LayoutProvider;
 
 import javax.inject.Inject;
 
@@ -22,6 +22,11 @@ public class ArticlesListItemViewModel implements LayoutProvider {
     @Override
     public int getLayout() {
         return R.layout.fragment_articles_list_item;
+    }
+
+    @Override
+    public void onBind() {
+
     }
 
     ArticlesListItemViewModel setData(final String headerTitle, final String abstractTitle, final String imageCaption, final String imageUrl, final String publicationDate) {

@@ -1,4 +1,4 @@
-package com.nytreader.alsk.nytreader.articlesList.ioc;
+package com.nytreader.alsk.articlesList.ioc;
 
 import java.lang.annotation.Retention;
 

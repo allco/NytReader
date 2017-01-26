@@ -1,8 +1,8 @@
-package com.nytreader.alsk.nytreader;
+package com.nytreader.alsk;
 
 import android.app.Application;
 
-import com.nytreader.alsk.nytreader.ioc.IoC;
+import com.nytreader.alsk.ioc.IoC;
 
 public class NytReaderApplication extends Application {
 

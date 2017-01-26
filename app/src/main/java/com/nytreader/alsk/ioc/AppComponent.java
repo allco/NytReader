@@ -1,8 +1,8 @@
-package com.nytreader.alsk.nytreader.ioc;
+package com.nytreader.alsk.ioc;
 
-import com.nytreader.alsk.nytreader.articlesList.ioc.ArticlesListComponent;
-import com.nytreader.alsk.nytreader.articlesList.ioc.ArticlesListModule;
-import com.nytreader.alsk.nytreader.utils.ThumbLoader;
+import com.nytreader.alsk.articlesList.ioc.ArticlesListComponent;
+import com.nytreader.alsk.articlesList.ioc.ArticlesListModule;
+import com.nytreader.alsk.utils.ThumbLoader;
 
 import javax.inject.Singleton;
 

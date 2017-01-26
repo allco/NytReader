@@ -1,18 +1,18 @@
-package com.nytreader.alsk.nytreader.utils;
+package com.nytreader.alsk.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.nytreader.alsk.nytreader.R;
+import com.nytreader.alsk.R;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import static com.nytreader.alsk.nytreader.ioc.AppModule.END_POINT_IMAGES;
-import static com.nytreader.alsk.nytreader.ioc.AppModule.THUMB_SIZE;
+import static com.nytreader.alsk.ioc.AppModule.END_POINT_IMAGES;
+import static com.nytreader.alsk.ioc.AppModule.THUMB_SIZE;
 
 @Singleton
 public class ThumbLoader {
