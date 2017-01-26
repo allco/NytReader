@@ -2,6 +2,7 @@ package com.nytreader.alsk.ioc;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.nytreader.alsk.BuildConfig;
@@ -58,6 +59,11 @@ public class AppModule {
     @Named(THUMB_SIZE)
     public int provideThumbSize(@NonNull Context context) {
         return context.getResources().getDimensionPixelSize(R.dimen.thumb_size);
+    }
+
+    @Provides
+    public Handler provideHandler() {
+        return new Handler();
     }
 
     @NonNull

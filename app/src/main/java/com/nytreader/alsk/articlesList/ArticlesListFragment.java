@@ -40,10 +40,10 @@ public class ArticlesListFragment extends Fragment {
         setHasOptionsMenu(true);
         ArticlesListComponent component = IoC.getInstance().getAppComponent().startArticlesList(new ArticlesListModule());
         viewModel = component.createModel();
-        viewModel.loadItems();
+        viewModel.reloadArticles();
 
         FragmentArticlesListBinding binding = FragmentArticlesListBinding.inflate(inflater, container, false);
-        binding.frSwipeToRefresh.setOnRefreshListener(viewModel::loadItems);
+        binding.frSwipeToRefresh.setOnRefreshListener(viewModel::reloadArticles);
 
         binding.setModel(viewModel);
         return binding.getRoot();
@@ -52,6 +52,7 @@ public class ArticlesListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        viewModel.tearDown();
         viewModel = null;
     }
 

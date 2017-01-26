@@ -10,14 +10,16 @@ import com.nytreader.alsk.ui.recyclerview.LayoutProvider;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
 import rx.Observable;
+
+import static com.nytreader.alsk.articlesList.ioc.ArticlesListModule.TIME_FORMATTER;
+import static com.nytreader.alsk.articlesList.ioc.ArticlesListModule.TIME_FORMATTER_EXPECTED;
 
 @ArticlesListScope
 public class ArticlesListDataSource {
@@ -27,20 +29,24 @@ public class ArticlesListDataSource {
     @NonNull
     private final Provider<ArticlesListItemViewModel> listItemModelProvider;
 
-    DateFormat formatTo = SimpleDateFormat.getDateTimeInstance();
-    DateFormat formatExpected = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    private final DateFormat formatTo;
+    private final DateFormat formatExpected;
 
     @Inject
-    public ArticlesListDataSource(
+    ArticlesListDataSource(
             @NonNull NytArticlesService articlesService,
-            @NonNull Provider<ArticlesListItemViewModel> listItemModelProvider) {
+            @NonNull Provider<ArticlesListItemViewModel> listItemModelProvider,
+            @NonNull @Named(TIME_FORMATTER_EXPECTED) DateFormat formatExpected,
+            @NonNull @Named(TIME_FORMATTER) DateFormat formatTo) {
+
         this.articlesService = articlesService;
         this.listItemModelProvider = listItemModelProvider;
+        this.formatExpected = formatExpected;
+        this.formatTo = formatTo;
     }
 
-    public Observable<LayoutProvider> loadItems(int page) {
-
-        return articlesService.searchNews(page)
+    Observable<LayoutProvider> loadItems(String searchRequest, int page) {
+        return articlesService.searchNews(searchRequest, page)
                 .filter(responseDataModel -> {
                     ResponseDataModel.Response response = responseDataModel == null ? null : responseDataModel.getResponse();
                     List<ResponseDataModel.Doc> docs = response == null ? null : response.getDocs();
@@ -66,12 +72,12 @@ public class ArticlesListDataSource {
         String imageUrl = media == null ? null : media.getUrl();
         String publishDate = doc == null ? null : doc.getPubliationDate();
 
-        // reformat a date
+        // reformat the date
         if (!TextUtils.isEmpty(publishDate)) {
             try {
                 publishDate = formatTo.format(formatExpected.parse(publishDate));
             } catch (ParseException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 

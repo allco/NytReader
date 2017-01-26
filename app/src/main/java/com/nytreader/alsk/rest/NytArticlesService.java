@@ -8,5 +8,5 @@ import rx.Observable;
 
 public interface NytArticlesService {
     @GET("/svc/search/v2/articlesearch.json?apikey=" + BuildConfig.NYT_KEY)
-    Observable<ResponseDataModel> searchNews(@Query("page") int pageNumber);
+    Observable<ResponseDataModel> searchNews(@Query("q") String searchRequest, @Query("page") int pageNumber);
 }
