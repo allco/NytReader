@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 
 import com.nytreader.alsk.R;
 import com.nytreader.alsk.utils.ui.recyclerview.LayoutProviderObservableList;
@@ -29,7 +30,8 @@ abstract public class ArticlesListViewModel {
     protected final ArticlesListDataSource dataSource;
 
     @Nullable
-    private Subscription subscriptionCall;
+    @VisibleForTesting
+    Subscription subscriptionCall;
 
     ArticlesListViewModel(@NonNull Context context, @NonNull ArticlesListDataSource dataSource) {
         this.context = context;
@@ -45,7 +47,8 @@ abstract public class ArticlesListViewModel {
         setBannerMessage(context.getString(resId));
     }
 
-    private void setBannerMessage(String message) {
+    @VisibleForTesting
+    void setBannerMessage(String message) {
         errorMessage.set(message);
         articlesList.clear();
     }
