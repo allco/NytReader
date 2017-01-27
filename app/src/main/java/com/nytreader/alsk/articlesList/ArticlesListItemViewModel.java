@@ -3,7 +3,7 @@ package com.nytreader.alsk.articlesList;
 import android.databinding.ObservableField;
 
 import com.nytreader.alsk.R;
-import com.nytreader.alsk.ui.recyclerview.LayoutProvider;
+import com.nytreader.alsk.utils.ui.recyclerview.LayoutProvider;
 
 import javax.inject.Inject;
 

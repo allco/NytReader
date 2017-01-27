@@ -1,7 +1,6 @@
 package com.nytreader.alsk.ioc;
 
 import com.nytreader.alsk.articlesList.ioc.ArticlesListComponent;
-import com.nytreader.alsk.articlesList.ioc.ArticlesListModule;
 import com.nytreader.alsk.utils.ThumbLoader;
 
 import javax.inject.Singleton;
@@ -11,6 +10,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
-    ArticlesListComponent startArticlesList(ArticlesListModule module);
+    ArticlesListComponent startArticlesList();
     ThumbLoader getThumbLoader();
 }

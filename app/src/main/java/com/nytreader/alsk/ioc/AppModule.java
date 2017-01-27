@@ -76,7 +76,7 @@ public class AppModule {
         // add logger for Debug mode only
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
-            logger.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            logger.setLevel(HttpLoggingInterceptor.Level.HEADERS);
             builder.addInterceptor(logger);
         }
 

@@ -1,4 +1,4 @@
-package com.nytreader.alsk.ui.recyclerview;
+package com.nytreader.alsk.utils.ui.recyclerview;
 
 import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;

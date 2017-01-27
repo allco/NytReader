@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nytreader.alsk.ui.recyclerview;
+package com.nytreader.alsk.utils.ui.recyclerview;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

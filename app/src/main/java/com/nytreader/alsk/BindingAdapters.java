@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.nytreader.alsk.ioc.IoC;
-import com.nytreader.alsk.ui.recyclerview.LayoutProviderObservableList;
-import com.nytreader.alsk.ui.recyclerview.MultiTypeObserverDataBoundAdapter;
 import com.nytreader.alsk.utils.ThumbLoader;
+import com.nytreader.alsk.utils.ui.recyclerview.LayoutProviderObservableList;
+import com.nytreader.alsk.utils.ui.recyclerview.MultiTypeObserverDataBoundAdapter;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResponseDataModel {
+public class SearchedNewsDataModel {
 
     @SerializedName("response")
     private Response response;
@@ -100,7 +100,7 @@ public class ResponseDataModel {
         @SerializedName("headline")
         private Headline headline;
         @SerializedName("pub_date")
-        private String publiationDate;
+        private String publicationDate;
         @SerializedName("multimedia")
         private List<Multimedia> multimedia = null;
 
@@ -120,12 +120,12 @@ public class ResponseDataModel {
             this.headline = headline;
         }
 
-        public String getPubliationDate() {
-            return publiationDate;
+        public String getPublicationDate() {
+            return publicationDate;
         }
 
-        public void setPubliationDate(String publiationDate) {
-            this.publiationDate = publiationDate;
+        public void setPublicationDate(String publicationDate) {
+            this.publicationDate = publicationDate;
         }
 
         public List<Multimedia> getMultimedia() {

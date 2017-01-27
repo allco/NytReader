@@ -1,12 +1,15 @@
 package com.nytreader.alsk.articlesList;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.nytreader.alsk.BuildConfig;
 import com.nytreader.alsk.articlesList.ioc.ArticlesListScope;
+import com.nytreader.alsk.rest.MostViewedDataModel;
 import com.nytreader.alsk.rest.NytArticlesService;
-import com.nytreader.alsk.rest.ResponseDataModel;
-import com.nytreader.alsk.ui.recyclerview.LayoutProvider;
+import com.nytreader.alsk.rest.SearchedNewsDataModel;
+import com.nytreader.alsk.utils.ui.recyclerview.LayoutProvider;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,6 +23,7 @@ import rx.Observable;
 
 import static com.nytreader.alsk.articlesList.ioc.ArticlesListModule.TIME_FORMATTER;
 import static com.nytreader.alsk.articlesList.ioc.ArticlesListModule.TIME_FORMATTER_EXPECTED;
+import static com.nytreader.alsk.ioc.AppModule.END_POINT_IMAGES;
 
 @ArticlesListScope
 public class ArticlesListDataSource {
@@ -30,6 +34,7 @@ public class ArticlesListDataSource {
     private final Provider<ArticlesListItemViewModel> listItemModelProvider;
 
     private final DateFormat formatTo;
+    private final String endPoint;
     private final DateFormat formatExpected;
 
     @Inject
@@ -37,40 +42,80 @@ public class ArticlesListDataSource {
             @NonNull NytArticlesService articlesService,
             @NonNull Provider<ArticlesListItemViewModel> listItemModelProvider,
             @NonNull @Named(TIME_FORMATTER_EXPECTED) DateFormat formatExpected,
-            @NonNull @Named(TIME_FORMATTER) DateFormat formatTo) {
+            @NonNull @Named(TIME_FORMATTER) DateFormat formatTo,
+            @Named(END_POINT_IMAGES) String endPoint
+    ) {
 
         this.articlesService = articlesService;
         this.listItemModelProvider = listItemModelProvider;
         this.formatExpected = formatExpected;
         this.formatTo = formatTo;
+        this.endPoint = endPoint;
     }
 
-    Observable<LayoutProvider> loadItems(String searchRequest, int page) {
-        return articlesService.searchNews(searchRequest, page)
+    public Observable<LayoutProvider> mostViewed() {
+        return articlesService.mostViewed(BuildConfig.NYT_KEY)
+                .filter(mostViewedDataModel -> {
+                    List<MostViewedDataModel.Result> results = mostViewedDataModel == null ? null : mostViewedDataModel.getResults();
+                    return results != null && !results.isEmpty();
+                })
+                .map(MostViewedDataModel::getResults)
+                .flatMap(Observable::from)
+                .map(this::mapToViewModel);
+    }
+
+    Observable<LayoutProvider> searchNews(String searchRequest, int page) {
+        return articlesService.searchNews(searchRequest, page, BuildConfig.NYT_KEY)
                 .filter(responseDataModel -> {
-                    ResponseDataModel.Response response = responseDataModel == null ? null : responseDataModel.getResponse();
-                    List<ResponseDataModel.Doc> docs = response == null ? null : response.getDocs();
+                    SearchedNewsDataModel.Response response = responseDataModel == null ? null : responseDataModel.getResponse();
+                    List<SearchedNewsDataModel.Doc> docs = response == null ? null : response.getDocs();
                     return docs != null && !docs.isEmpty();
                 })
                 .map(responseDataModel -> responseDataModel.getResponse().getDocs())
                 .flatMap(Observable::from)
-                .map(this::mapDocToListViewItem);
+                .map(this::mapToViewModel);
     }
 
     @NonNull
-    private LayoutProvider mapDocToListViewItem(ResponseDataModel.Doc doc) {
+    private LayoutProvider mapToViewModel(@Nullable SearchedNewsDataModel.Doc doc) {
 
-        ResponseDataModel.Headline headline = doc == null ? null : doc.getHeadline();
-        List<ResponseDataModel.Multimedia> multimedia = doc == null ? null : doc.getMultimedia();
-        ResponseDataModel.Multimedia media = multimedia == null || multimedia.isEmpty() ? null : multimedia.get(0);
+        SearchedNewsDataModel.Headline headline = doc == null ? null : doc.getHeadline();
+        List<SearchedNewsDataModel.Multimedia> multimedia = doc == null ? null : doc.getMultimedia();
+        SearchedNewsDataModel.Multimedia media = multimedia == null || multimedia.isEmpty() ? null : multimedia.get(0);
 
         String headerTitle = headline == null ? null : headline.getName();
         headerTitle = headerTitle != null ? headerTitle : (headline == null ? null : headline.getMain());
 
         String abstractTitle = doc == null ? null : doc.getSnippet();
         String imageCaption = media == null ? null : media.getCaption();
-        String imageUrl = media == null ? null : media.getUrl();
-        String publishDate = doc == null ? null : doc.getPubliationDate();
+        String imageUrl = media == null ? null : endPoint + "/" + media.getUrl();
+        String publishDate = doc == null ? null : doc.getPublicationDate();
+
+        // reformat the date
+        if (!TextUtils.isEmpty(publishDate)) {
+            try {
+                publishDate = formatTo.format(formatExpected.parse(publishDate));
+            } catch (ParseException e) {
+                //e.printStackTrace();
+            }
+        }
+
+        return listItemModelProvider.get().setData(headerTitle, abstractTitle, imageCaption, imageUrl, publishDate);
+    }
+
+    @NonNull
+    private LayoutProvider mapToViewModel(@Nullable MostViewedDataModel.Result doc) {
+
+        List<MostViewedDataModel.Medium> media = doc == null ? null : doc.getMedia();
+        MostViewedDataModel.Medium medium = media == null || media.isEmpty() ? null : media.get(0);
+        List<MostViewedDataModel.MediaMetadatum> mediaMetadata = medium == null ? null : medium.getMediaMetadata();
+        MostViewedDataModel.MediaMetadatum mediaMetadatum = mediaMetadata == null || mediaMetadata.isEmpty() ? null : mediaMetadata.get(0);
+
+        String headerTitle = doc == null ? null : doc.getTitle();
+        String abstractTitle = doc == null ? null : doc.getSnippet();
+        String imageCaption = medium == null ? null : medium.getCaption();
+        String imageUrl = mediaMetadatum == null ? null : mediaMetadatum.getUrl();
+        String publishDate = doc == null ? null : doc.getPublishedDate();
 
         // reformat the date
         if (!TextUtils.isEmpty(publishDate)) {
