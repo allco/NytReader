@@ -68,7 +68,7 @@ public class SearchViewModel extends ArticlesListViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnTerminate(() -> {
-                    clearSubscription();
+                    cancelSubscription();
                     removeLoadingItem();
                 })
                 .subscribe(this::onNext, this::onError, this::onComplete);
@@ -130,6 +130,7 @@ public class SearchViewModel extends ArticlesListViewModel {
                 if (request == null || request.equals(searchRequest)) {
                     return false;
                 }
+                cancelSubscription();
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     searchRequest = request;

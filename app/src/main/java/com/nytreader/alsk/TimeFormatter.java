@@ -20,7 +20,8 @@ public class TimeFormatter {
             try {
                 return fortmatTo.format(fortmatExpected.parse(input));
             } catch (ParseException e) {
-                e.printStackTrace();
+                // lets do not flood the log with
+                //e.printStackTrace();
             }
         }
         return input;

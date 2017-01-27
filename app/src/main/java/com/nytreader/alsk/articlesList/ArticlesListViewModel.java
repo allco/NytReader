@@ -40,7 +40,7 @@ abstract public class ArticlesListViewModel {
 
     @CallSuper
     public void tearDown() {
-        clearSubscription();
+        cancelSubscription();
     }
 
     void setBannerMessage(@StringRes final int resId) {
@@ -55,13 +55,13 @@ abstract public class ArticlesListViewModel {
 
     @CallSuper
     public void reload() {
-        clearSubscription();
+        cancelSubscription();
         errorMessage.set(null);
         articlesList.clear();
         subscriptionCall = tryLoadNextPage();
     }
 
-    void clearSubscription() {
+    void cancelSubscription() {
         if (subscriptionCall != null) {
             subscriptionCall.unsubscribe();
         }

@@ -43,7 +43,7 @@ public class MostViewedViewModel extends ArticlesListViewModel {
                 .subscribeOn(Schedulers.io())
                 .take(COUNT_OF_NEWS_TO_SHOW)
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnTerminate(this::clearSubscription)
+                .doOnTerminate(this::cancelSubscription)
                 .subscribe(articlesList::add, this::onError, this::onComplete);
     }
 
