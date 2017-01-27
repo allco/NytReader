@@ -7,21 +7,13 @@ import android.widget.ImageView;
 import com.nytreader.alsk.R;
 import com.squareup.picasso.Picasso;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import static com.nytreader.alsk.ioc.AppModule.THUMB_SIZE;
-
-@Singleton
 public class ThumbLoader {
 
     @NonNull
     private Context context;
     private int sizeThumb;
 
-    @Inject
-    public ThumbLoader(@NonNull Context context, @Named(THUMB_SIZE) final int sizeThumb) {
+    public ThumbLoader(@NonNull Context context, final int sizeThumb) {
         this.context = context;
         this.sizeThumb = sizeThumb;
     }

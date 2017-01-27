@@ -2,6 +2,7 @@ package com.nytreader.alsk.articlesList;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,7 +21,8 @@ import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 @ArticlesListScope
 public class MostViewedViewModel extends ArticlesListViewModel {
 
-    private static final int COUNT_OF_NEWS_TO_SHOW = 10;
+    @VisibleForTesting
+    public static final int COUNT_OF_NEWS_TO_SHOW = 10;
 
     @NonNull
     private final AppNavigator navigator;

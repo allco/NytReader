@@ -14,22 +14,23 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
 
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscription;
 
 import static com.nytreader.alsk.rest.NytArticlesService.HTTP_TOO_MANY_REQUESTS;
+import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-
 public class ArticlesListViewModelTest {
 
     @Rule
@@ -102,28 +103,23 @@ public class ArticlesListViewModelTest {
 
     @Test
     public void onErrorTooManyRequests429() throws Exception {
-        doNothing().when(model).setBannerMessage(any(int.class));
-        HttpException httpException = mock(HttpException.class);
-        doReturn(HTTP_TOO_MANY_REQUESTS).when(httpException).code();
-        model.onError(httpException);
-        verify(model).setBannerMessage(R.string.error_message_too_many_requests);
+        onErrorHelper(HTTP_TOO_MANY_REQUESTS, "" + R.string.error_message_too_many_requests);
     }
 
     @Test
     public void onErrorForbidden403() throws Exception {
-        doNothing().when(model).setBannerMessage(any(int.class));
-        HttpException httpException = mock(HttpException.class);
-        doReturn(HTTP_TOO_MANY_REQUESTS).when(httpException).code();
-        model.onError(httpException);
-        verify(model).setBannerMessage(R.string.error_message_forbidden);
+        onErrorHelper(HTTP_FORBIDDEN, "" + R.string.error_message_forbidden);
     }
 
     @Test
     public void onErrorDefault() throws Exception {
+        onErrorHelper(HTTP_INTERNAL_ERROR, R.string.error_message_generic + "\n(code: " + HTTP_INTERNAL_ERROR + ")");
+    }
+
+    private void onErrorHelper(int httpCode, String expectedString) {
         doNothing().when(model).setBannerMessage(any(String.class));
-        HttpException httpException = mock(HttpException.class);
-        doReturn(HTTP_INTERNAL_ERROR).when(httpException).code();
-        model.onError(httpException);
-        verify(model).setBannerMessage(any(String.class));
+        Response response = Response.error(httpCode, ResponseBody.create(MediaType.parse("*/*"), "content"));
+        model.onError(new HttpException(response));
+        verify(model).setBannerMessage(expectedString);
     }
 }

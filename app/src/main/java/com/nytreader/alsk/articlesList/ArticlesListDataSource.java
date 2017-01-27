@@ -2,17 +2,15 @@ package com.nytreader.alsk.articlesList;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.nytreader.alsk.BuildConfig;
+import com.nytreader.alsk.TimeFormatter;
 import com.nytreader.alsk.articlesList.ioc.ArticlesListScope;
 import com.nytreader.alsk.rest.MostViewedDataModel;
 import com.nytreader.alsk.rest.NytArticlesService;
 import com.nytreader.alsk.rest.SearchedNewsDataModel;
 import com.nytreader.alsk.utils.ui.recyclerview.LayoutProvider;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,8 +19,6 @@ import javax.inject.Provider;
 
 import rx.Observable;
 
-import static com.nytreader.alsk.articlesList.ioc.ArticlesListModule.TIME_FORMATTER;
-import static com.nytreader.alsk.articlesList.ioc.ArticlesListModule.TIME_FORMATTER_EXPECTED;
 import static com.nytreader.alsk.ioc.AppModule.END_POINT_IMAGES;
 
 @ArticlesListScope
@@ -32,24 +28,22 @@ public class ArticlesListDataSource {
     private final NytArticlesService articlesService;
     @NonNull
     private final Provider<ArticlesListItemViewModel> listItemModelProvider;
-
-    private final DateFormat formatTo;
+    @NonNull
+    private final TimeFormatter timeFormatter;
+    @NonNull
     private final String endPoint;
-    private final DateFormat formatExpected;
 
     @Inject
     ArticlesListDataSource(
             @NonNull NytArticlesService articlesService,
             @NonNull Provider<ArticlesListItemViewModel> listItemModelProvider,
-            @NonNull @Named(TIME_FORMATTER_EXPECTED) DateFormat formatExpected,
-            @NonNull @Named(TIME_FORMATTER) DateFormat formatTo,
+            @NonNull TimeFormatter timeFormatter,
             @Named(END_POINT_IMAGES) String endPoint
     ) {
 
         this.articlesService = articlesService;
         this.listItemModelProvider = listItemModelProvider;
-        this.formatExpected = formatExpected;
-        this.formatTo = formatTo;
+        this.timeFormatter = timeFormatter;
         this.endPoint = endPoint;
     }
 
@@ -89,16 +83,7 @@ public class ArticlesListDataSource {
         String abstractTitle = doc == null ? null : doc.getSnippet();
         String imageCaption = media == null ? null : media.getCaption();
         String imageUrl = media == null ? null : endPoint + "/" + media.getUrl();
-        String publishDate = doc == null ? null : doc.getPublicationDate();
-
-        // reformat the date
-        if (!TextUtils.isEmpty(publishDate)) {
-            try {
-                publishDate = formatTo.format(formatExpected.parse(publishDate));
-            } catch (ParseException e) {
-                //e.printStackTrace();
-            }
-        }
+        String publishDate = timeFormatter.formatDate(doc == null ? null : doc.getPublicationDate());
 
         return listItemModelProvider.get().setData(headerTitle, abstractTitle, imageCaption, imageUrl, publishDate);
     }
@@ -115,16 +100,7 @@ public class ArticlesListDataSource {
         String abstractTitle = doc == null ? null : doc.getSnippet();
         String imageCaption = medium == null ? null : medium.getCaption();
         String imageUrl = mediaMetadatum == null ? null : mediaMetadatum.getUrl();
-        String publishDate = doc == null ? null : doc.getPublishedDate();
-
-        // reformat the date
-        if (!TextUtils.isEmpty(publishDate)) {
-            try {
-                publishDate = formatTo.format(formatExpected.parse(publishDate));
-            } catch (ParseException e) {
-                //e.printStackTrace();
-            }
-        }
+        String publishDate = timeFormatter.formatDate(doc == null ? null : doc.getPublishedDate());
 
         return listItemModelProvider.get().setData(headerTitle, abstractTitle, imageCaption, imageUrl, publishDate);
     }
