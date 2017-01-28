@@ -13,14 +13,14 @@ import com.nytreader.alsk.ioc.IoC;
 
 public class SearchActivity extends AppCompatActivity {
 
-
+    private SearchViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ArticlesListComponent component = IoC.getInstance().getAppComponent().startArticlesList();
-        SearchViewModel viewModel = component.createSearchViewModel();
+        viewModel = component.createSearchViewModel();
         viewModel.inflateMenu(getSupportActionBarOrThrow());
         viewModel.reload();
 
@@ -40,5 +40,12 @@ public class SearchActivity extends AppCompatActivity {
             throw new IllegalStateException("Activity has to have an ActionBar. Check used theme.");
         }
         return supportActionBar;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.tearDown();
+        viewModel = null;
     }
 }
